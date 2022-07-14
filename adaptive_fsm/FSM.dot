@@ -52,21 +52,21 @@ digraph G {
 
   o -> S;
 
-  S -> Q [label = b];
-
   P -> P1 [label = k];
 
   P1 -> Q [label = z];
 
+  P -> P [label = a];
+
   Q -> P [label = a];
 
-  P -> P [label = a];
+  S -> Q [label = b];
 
   {rank=same
 
-  Q -> R [color="#a9d18e",label = b];
-
   Q -> R [label = c];
+
+  Q -> R [color="#a9d18e",label = b];
 
   }
 
