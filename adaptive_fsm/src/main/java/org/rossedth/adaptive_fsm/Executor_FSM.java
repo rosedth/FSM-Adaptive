@@ -7,9 +7,12 @@ import org.jeasy.states.api.FiniteStateMachineException;
 import org.jeasy.states.api.State;
 import org.jeasy.states.api.Transition;
 import org.jeasy.states.core.TransitionBuilder;
+import org.rossedth.adaptable_fsm.BEvent;
+import org.rossedth.adaptable_fsm.NNEvent;
 import org.rossedth.adaptive_logic.Executor;
 import org.rossedth.adaptive_logic.Memory;
 import org.rossedth.adaptive_logic.Plan;
+import org.rossedth.adaptable_fsm.RecognizerFSM;
 
 public class Executor_FSM extends Executor {
 

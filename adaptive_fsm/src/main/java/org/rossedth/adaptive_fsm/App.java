@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.jeasy.states.api.FiniteStateMachineException;
+import org.rossedth.adaptable_fsm.GraphViz;
+import org.rossedth.adaptable_fsm.RecognizerFSM;
 import org.rossedth.adaptive_logic.AdaptiveLogic;
 import org.rossedth.adaptive_logic.Executor;
 import org.rossedth.adaptive_logic.Memory;

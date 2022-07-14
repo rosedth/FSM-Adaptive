@@ -6,7 +6,9 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 import org.jeasy.states.api.AbstractEvent;
-import org.rossedth.adaptive_fsm.RecognizerFSM.IListener;
+import org.rossedth.adaptable_fsm.NNEvent;
+import org.rossedth.adaptable_fsm.RecognizerFSM;
+import org.rossedth.adaptable_fsm.RecognizerFSM.IListener;
 import org.rossedth.adaptive_logic.Memory;
 import org.rossedth.adaptive_logic.Monitor;
 
