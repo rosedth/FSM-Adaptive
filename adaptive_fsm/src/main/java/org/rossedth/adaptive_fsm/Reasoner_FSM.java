@@ -41,7 +41,7 @@ public class Reasoner_FSM extends Reasoner{
 		List<Plan> responses=new ArrayList<Plan>();;
 		
 		AbstractEvent e=fsm_data.getEvent();
-		
+		System.out.println("Processing Data with reasoner");
 		if(s.getName().equalsIgnoreCase("P") &&
 			e.getName().equalsIgnoreCase("K")) {
 			Plan plan=new Plan();

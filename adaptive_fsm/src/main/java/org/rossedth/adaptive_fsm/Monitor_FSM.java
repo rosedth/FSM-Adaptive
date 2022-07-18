@@ -2,6 +2,8 @@ package org.rossedth.adaptive_fsm;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.nio.file.Paths;
 
 import javax.swing.Timer;
 
@@ -12,6 +14,9 @@ import org.rossedth.adaptable_fsm.RecognizerFSM.IListener;
 import org.rossedth.adaptive_logic.Memory;
 import org.rossedth.adaptive_logic.Monitor;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 public class Monitor_FSM extends Monitor {
 	private IListener listener;
 	
@@ -21,7 +26,6 @@ public class Monitor_FSM extends Monitor {
 	}
 	
 	public void sense() {
-		System.out.println("Establishing listening from Monitor");
 		final RecognizerFSM sys_U=(RecognizerFSM)this.getSysU();
 		
     	listener=new RecognizerFSM.IListener() {
@@ -29,18 +33,16 @@ public class Monitor_FSM extends Monitor {
 			@Override
 			public void onInvalidEntry(AbstractEvent event) {
 				System.out.println("Invalid input for current state "+ sys_U.getFSM().getCurrentState().getName() +" from Monitor");
-				//saveData(new FSMData(sys_U.getFSM().getCurrentState(),event));
-				//sendData();
+				saveData(new FSMData(sys_U.getFSM().getCurrentState(),event));
+				saveDataToFile();
+				sendData();
 			}
 			
 			@Override
 			public void onUnidentifiedEntry(AbstractEvent event) {
 				System.out.println("Unidentified input " +event.getName()+" detected at state "+ sys_U.getFSM().getCurrentState().getName()+" reported from Monitor");
-//				if (event.getName().equalsIgnoreCase("K")) {
-//					int delay=5000;
-//					onTimer(delay);
-//				}
 				saveData(new FSMData(sys_U.getFSM().getCurrentState(),event));
+				saveDataToFile();
 				sendData();
 			}
 			
@@ -57,6 +59,7 @@ public class Monitor_FSM extends Monitor {
 				    	sys_U.getTimer().stop();
 						saveData(new FSMData(sys_U.getFSM().getCurrentState(),new NNEvent("TimeEvent") {
 						}));
+						saveDataToFile();
 						sendData();
 				    }
 				});
@@ -66,6 +69,18 @@ public class Monitor_FSM extends Monitor {
 		};
 		
 		sys_U.setListener(listener);
+	}
+	
+	public void saveDataToFile() {
+		 ObjectMapper mapper = new ObjectMapper();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		 try {
+			mapper.writeValue(Paths.get("Monitor_Data.json").toFile(), this.getData());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 }

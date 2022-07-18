@@ -22,6 +22,7 @@ import org.rossedth.adaptive_logic.Selector;
  */
 
 class Launcher {
+	public static GraphViz viewer=new GraphViz();
 
 	public static void main(String[] args) throws FiniteStateMachineException, IOException {
 
@@ -34,11 +35,10 @@ class Launcher {
 		/*
 		 * Setup GraphViz
 		 */
-	
-		GraphViz gv = new GraphViz();
-		gv.addln(gv.start_graph());
-		gv.setup_graph("GraphViz.config");
 
+		viewer.addln(viewer.start_graph());
+		viewer.setup_graph("GraphViz.config");
+		
         /*
          * Create a AdaptiveLogic instance
          */
@@ -53,7 +53,7 @@ class Launcher {
 		 */
 
 
-		recognizer.printCurrentState(gv);
+		recognizer.printCurrentState(viewer);
 
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Insert an input or Press [q] to quit tutorial.");
@@ -63,7 +63,7 @@ class Launcher {
 			String input = scanner.nextLine();
 
 			recognizer.processInput(input);
-			recognizer.printCurrentState(gv);
+			recognizer.printCurrentState(viewer);
 
 			if (recognizer.atFinalState()) {
 				System.out.println("Recognizer has reach final state ");   
