@@ -1,0 +1,6 @@
+/target/
+# DOT files
+*.dot
+
+# Monitor_Data.json file
+Monitor_Data.json
