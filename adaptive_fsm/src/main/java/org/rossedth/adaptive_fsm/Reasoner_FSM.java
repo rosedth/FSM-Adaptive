@@ -1,33 +1,15 @@
 package org.rossedth.adaptive_fsm;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import javax.swing.Timer;
 
 import org.jeasy.states.api.AbstractEvent;
-import org.jeasy.states.api.FiniteStateMachine;
-import org.jeasy.states.api.FiniteStateMachineException;
 import org.jeasy.states.api.State;
-import org.jeasy.states.api.Transition;
-import org.jeasy.states.core.FiniteStateMachineBuilder;
-import org.jeasy.states.core.TransitionBuilder;
 import org.rossedth.adaptive_logic.Action;
 import org.rossedth.adaptive_logic.Data;
 import org.rossedth.adaptive_logic.Memory;
 import org.rossedth.adaptive_logic.Plan;
 import org.rossedth.adaptive_logic.Reasoner;
-
-import com.fasterxml.jackson.databind.DatabindException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.exc.StreamWriteException;
-import com.fasterxml.jackson.core.type.TypeReference;
 
 public class Reasoner_FSM extends Reasoner{
 
