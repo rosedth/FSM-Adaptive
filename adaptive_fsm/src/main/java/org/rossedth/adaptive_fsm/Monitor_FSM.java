@@ -10,7 +10,6 @@ import javax.swing.Timer;
 import org.jeasy.states.api.AbstractEvent;
 import org.rossedth.adaptable_fsm.NNEvent;
 import org.rossedth.adaptable_fsm.RecognizerFSM;
-import org.rossedth.adaptable_fsm.RecognizerFSM.IListener;
 import org.rossedth.adaptive_logic.Memory;
 import org.rossedth.adaptive_logic.Monitor;
 
@@ -18,35 +17,56 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class Monitor_FSM extends Monitor {
-	private IListener listener;
-	
+	private RecognizerFSM sys_U;
 	public Monitor_FSM() {};
 	public Monitor_FSM (Memory mem) {
 		super(mem);
 	}
 	
 	public void sense() {
-		final RecognizerFSM sys_U=(RecognizerFSM)this.getSysU();
+		sys_U=(RecognizerFSM)this.getSysU();
 		
-    	listener=new RecognizerFSM.IListener() {
+		/*
+		 * Setting a new listener for invalid entries on the underlying system (FSM)
+		 */
+		sys_U.setInvalidEntryListener(new RecognizerFSM.InvalidEntryListener() {
 			
 			@Override
 			public void onInvalidEntry(AbstractEvent event) {
-				System.out.println("Invalid input for current state "+ sys_U.getFSM().getCurrentState().getName() +" from Monitor");
+				// TODO Auto-generated method stub
+				System.out.println("Invalid input for current state "+ sys_U.getFSM().getCurrentState().getName() +" from InvalidEntryListener");				
 				saveData(new FSMData(sys_U.getFSM().getCurrentState(),event));
 				saveDataToFile();
 				sendData();
+
 			}
+		});
+		
+
+		/*
+		 * Setting a new listener for unidentified entries on the underlying system (FSM)
+		 */		
+		sys_U.setUndefinedEntryListener(new RecognizerFSM.UndefinedEntryListener() {
 			
 			@Override
 			public void onUnidentifiedEntry(AbstractEvent event) {
-				System.out.println("Unidentified input " +event.getName()+" detected at state "+ sys_U.getFSM().getCurrentState().getName()+" reported from Monitor");
+				// TODO Auto-generated method stub
+				System.out.println("Unidentified input " +event.getName()+" detected at state "+ sys_U.getFSM().getCurrentState().getName()+" reported from UnidentifiedEntryListener");
 				saveData(new FSMData(sys_U.getFSM().getCurrentState(),event));
 				saveDataToFile();
 				sendData();
 			}
+		});
+		
+		/*
+		 * Setting a new listener timing events on the underlying system (FSM)
+		 */
+		
+		sys_U.setTimerListener(new RecognizerFSM.TimerListener() {
 			
-			public void onTimer(final int delay) {
+			@Override
+			public void onTimer(int delay) {
+				// TODO Auto-generated method stub
 				Timer timer=sys_U.getTimer();
 				if (timer==null){
 					timer=new Timer(delay,null);
@@ -66,9 +86,8 @@ public class Monitor_FSM extends Monitor {
 				
 				timer.start();
 			}
-		};
+		});
 		
-		sys_U.setListener(listener);
 	}
 	
 	public void saveDataToFile() {
